@@ -13,5 +13,8 @@ class HomePageTest(TestCase):
 
     def test_homepage_has_correct_template(self):
         result = self.client.get("/")
-        self.assertIn(b"<title>Vacation Run</title", result.content)
+        html = result.content
+        self.assertTrue(html.startswith(b"<!DOCTYPE html>"))
+        self.assertIn(b"<title>Vacation Run</title>", html)
+        self.assertTrue(html.endswith(b"</html>"))
 
