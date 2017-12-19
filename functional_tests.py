@@ -12,7 +12,6 @@ class NewUserTest(unittest.TestCase):
     def test_can_visit_homepage(self):
         self.browser.get("http://localhost:8000")
         self.assertIn("Vacation Run", self.browser.title)
-        self.fail("Finish writing this test!")
 
 if __name__ == "__main__":
     unittest.main(warnings="ignore")
