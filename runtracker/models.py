@@ -14,6 +14,11 @@ class Activity(models.Model):
 
     class Meta:
         ordering = ('name',)
+        verbose_name = 'Activity'
+        verbose_name_plural = 'Activities'
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class State(models.Model):
@@ -22,33 +27,16 @@ class State(models.Model):
     state_code = models.CharField(max_length=2, primary_key=True)
     name = models.CharField(max_length=30)
 
-
-class Event(models.Model):
-    """An event where users can work out on a specific day."""
-
-    title = models.CharField(max_length=64, null=False, blank=False)
-    street = models.CharField(max_length=64)
-    city = models.CharField(max_length=64, null=False, blank=False)
-    zip = models.CharField(max_length=5)
-    date = models.DateTimeField(null=False, blank=False)
-    notes = models.TextField()
-
-    state = models.ForeignKey(
-        State,
-        null=True,
-        blank=False,
-        on_delete=models.SET_NULL,
-    )
-
-    users = models.ManyToManyField(User)
+    def __str__(self):
+        return f"{self.name} ({self.state_code})"
 
     class Meta:
-        ordering = ('date',)
+        ordering = ('name',)
 
 
-#############
-# User-Owned
-#############
+###############
+# User-Created
+###############
 
 class Exerciser(models.Model):
     """Profile information for a user, decoupled from auth info."""
@@ -65,19 +53,59 @@ class Exerciser(models.Model):
 
     state = models.ForeignKey(State, null=True, on_delete=models.SET_NULL)
 
+    def __str__(self):
+        return f"{self.fname} {self.lname}"
+
+
+class Event(models.Model):
+    """An event where users can work out on a specific day."""
+
+    added_by = models.ForeignKey(
+        Exerciser,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="creator+"
+    )
+
+    title = models.CharField(max_length=64, null=False, blank=False)
+    street = models.CharField(max_length=64)
+    city = models.CharField(max_length=64, null=False, blank=False)
+    zip = models.CharField(max_length=5)
+    date = models.DateTimeField(null=False, blank=False)
+    notes = models.TextField()
+
+    state = models.ForeignKey(
+        State,
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+    )
+
+    exercisers = models.ManyToManyField(Exerciser)
+
+    class Meta:
+        ordering = ('date',)
+
+    def __str__(self):
+        return f"{self.title} {self.date.strftime('%B')}"
+
 
 class Team(models.Model):
     """A group of people working together toward a vacation."""
 
     name = models.CharField(max_length=128, null=False, blank=False)
     captain = models.ForeignKey(
-        User,
+        Exerciser,
         null=False,
         on_delete=models.CASCADE,
-        related_name="captain+",
+        related_name="captain",
     )
 
-    users = models.ManyToManyField(User)
+    exercisers = models.ManyToManyField(Exerciser)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Workout(models.Model):
@@ -92,7 +120,7 @@ class Workout(models.Model):
 
     calories = models.IntegerField()
 
-    event = models.ForeignKey(
+    evt = models.ForeignKey(
         Event,
         null=True,
         blank=True,
@@ -106,14 +134,18 @@ class Workout(models.Model):
     distance = models.FloatField(null=False, blank=False)
     duration = models.DurationField(null=False, blank=False)
 
-    user = models.ForeignKey(
-        User,
+    exerciser = models.ForeignKey(
+        Exerciser,
         null=False,
+        blank=False,
         on_delete=models.CASCADE,
     )
 
     class Meta:
         ordering = ('date',)
+
+    def __str__(self):
+        return f"{self.date.strftime('%A')} {self.activity.name}"
 
 
 
