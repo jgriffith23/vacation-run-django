@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from imagekit.models import ImageSpecField
+from pilkit.processors import ResizeToFit
 
 ###################
 # Generic Concepts
@@ -10,7 +12,17 @@ class Activity(models.Model):
 
     act_code = models.CharField(max_length=5, primary_key=True)
     name = models.CharField(max_length=64, null=False, blank=False)
-    icon = models.ImageField()
+    icon = models.ImageField(
+        null=True,
+        blank=True,
+        upload_to='activities',
+    )
+
+    icon_display = ImageSpecField(
+        source='photo',
+        processors=[ResizeToFit(100, 100)],
+        format='PNG',
+    )
 
     class Meta:
         ordering = ('name',)
@@ -72,8 +84,9 @@ class Event(models.Model):
     street = models.CharField(max_length=64)
     city = models.CharField(max_length=64, null=False, blank=False)
     zip = models.CharField(max_length=5)
+    url = models.CharField(max_length=256, null=True, blank=True)
     date = models.DateTimeField(null=False, blank=False)
-    notes = models.TextField()
+    notes = models.TextField(null=True, blank=True)
 
     state = models.ForeignKey(
         State,
@@ -82,13 +95,13 @@ class Event(models.Model):
         on_delete=models.SET_NULL,
     )
 
-    exercisers = models.ManyToManyField(Exerciser)
+    exercisers = models.ManyToManyField(Exerciser, blank=True)
 
     class Meta:
         ordering = ('date',)
 
     def __str__(self):
-        return f"{self.title} {self.date.strftime('%B')}"
+        return f"{self.title} ({self.date.strftime('%B %Y')})"
 
 
 class Team(models.Model):

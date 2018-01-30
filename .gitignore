@@ -1,5 +1,9 @@
+.DS_Store
 env/
-__pycache__/
 geckodriver
 .idea
 geckodriver.log
+media/
+__pycache__/
+secrets.sh
+seed.py
