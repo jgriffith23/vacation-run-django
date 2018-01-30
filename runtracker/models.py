@@ -158,7 +158,7 @@ class Workout(models.Model):
         ordering = ('date',)
 
     def __str__(self):
-        return f"{self.date.strftime('%A')} {self.activity.name}"
+        return f"{self.activity.name} ({self.date.strftime('%A, %B %d, %Y')})"
 
 
 
