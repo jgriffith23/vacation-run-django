@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'vacationrun.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vacation-run',
+        'NAME': os.environ.get('TEST_DB', 'vacation-run'),
     }
 }
 
