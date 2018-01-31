@@ -1,13 +1,26 @@
-from selenium import webdriver
-import unittest
+# from selenium import webdriver
+# import unittest
 
-class NewUserTest(unittest.TestCase):
+from selenium.webdriver.firefox.webdriver import WebDriver
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-    def setUp(self):
-        self.browser = webdriver.Firefox()
+class NewUserTest(StaticLiveServerTestCase):
 
-    def tearDown(self):
-        self.browser.quit()
+    # def setUp(self):
+    #     self.browser = webdriver.Firefox()
+    #
+    # def tearDown(self):
+    #     self.browser.quit()
+
+    @classmethod
+    def setUpClass(cls):
+        super(NewUserTest, cls).setUpClass()
+        cls.selenium = WebDriver()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.selenium.quit()
+        super(NewUserTest, cls).tearDownClass()
 
     def test_can_visit_homepage(self):
         # A user can visit the homepage
@@ -46,8 +59,5 @@ class NewUserTest(unittest.TestCase):
 
         self.fail("Finish writing the code for this test!")
 
-
-
-
-if __name__ == "__main__":
-    unittest.main(warnings="ignore")
+# if __name__ == "__main__":
+#     unittest.main(warnings="ignore")
