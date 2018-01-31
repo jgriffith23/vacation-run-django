@@ -42,6 +42,10 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+            mkdir geckodriver
+            wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+            tar -xvf geckodriver-v0.18.0-linux64.tar.gz -C geckodriver
+            sudo cp geckodriver/geckodriver /usr/local/bin/
 
       - save_cache:
           paths:
