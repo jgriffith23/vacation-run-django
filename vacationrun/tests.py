@@ -2,7 +2,13 @@
 # import unittest
 
 from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+
+
+cap = DesiredCapabilities().FIREFOX
+cap["marionette"] = False
+
 
 class NewUserTest(StaticLiveServerTestCase):
 
