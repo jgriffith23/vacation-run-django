@@ -1,42 +1,42 @@
-# from selenium import webdriver
-# import unittest
+from selenium import webdriver
+import unittest
 
-from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
-
-cap = DesiredCapabilities().FIREFOX
-cap["marionette"] = False
+# from selenium.webdriver.firefox.webdriver import WebDriver
+# from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+# from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 
-class NewUserTest(StaticLiveServerTestCase):
+# cap = DesiredCapabilities().FIREFOX
+# cap["marionette"] = False
 
-    # def setUp(self):
-    #     self.browser = webdriver.Firefox()
+# TODO: Consider converting back to unittest?
+class NewUserTest(unittest.TestCase):
+
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+
+    def tearDown(self):
+        self.browser.quit()
+
+    # @classmethod
+    # def setUpClass(cls):
+    #     super(NewUserTest, cls).setUpClass()
+    #     cls.selenium = WebDriver()
     #
-    # def tearDown(self):
-    #     self.browser.quit()
-
-    @classmethod
-    def setUpClass(cls):
-        super(NewUserTest, cls).setUpClass()
-        cls.selenium = WebDriver()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.selenium.quit()
-        super(NewUserTest, cls).tearDownClass()
+    # @classmethod
+    # def tearDownClass(cls):
+    #     cls.selenium.quit()
+    #     super(NewUserTest, cls).tearDownClass()
 
     def test_can_visit_homepage(self):
         # A user can visit the homepage
-        self.selenium.get("http://localhost:8000")
+        self.browser.get("http://localhost:8000")
 
         # A user should see a title and homepage that talk about
         # running for your vacation
-        self.assertIn("Vacation Run", self.selenium.title)
-        header_text = self.selenium.find_element_by_tag_name("h1").text
-        self.assertIn("Let's Run for a Vacation!", header_text)
+        self.assertIn("Vacation Workouts", self.browser.title)
+        header_text = self.browser.find_element_by_tag_name("h1").text
+        self.assertIn("Vacation Workouts", header_text)
 
     # def test_can_calculate_runs_for_vacation_from_homepage(self):
     #     # A user should be able to enter how far they run in
