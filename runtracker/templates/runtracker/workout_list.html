@@ -3,9 +3,8 @@
 {% block content %}
 <h1>Your Workouts</h1>
 <ul>
-  <li>Workouts below</li>
 {% for workout in workouts %}
-  <li>{{ workout }} <li>
-</ul>
+  <li>{{ workout }}</li>
 {% endfor %}
+</ul>
 {% endblock %}

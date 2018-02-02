@@ -10,7 +10,9 @@ class WorkoutListView(LoginRequiredMixin, generic.ListView):
 
     template_name = "runtracker/workout_list.html"
 
+    context_object_name = "workouts"
+
     def get_queryset(self):
         print(self.request.user.exerciser)
-        return Workout.objects.all().filter(exerciser_id=self.request.user.exerciser)
+        return Workout.objects.all().filter(exerciser=self.request.user.exerciser)
 
