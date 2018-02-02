@@ -71,6 +71,7 @@ jobs:
           name: run server
           command: |
             . venv/bin/activate
+            python manage.py migrate
             python manage.py runserver
           background: true
 
