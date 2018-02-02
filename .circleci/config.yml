@@ -58,10 +58,24 @@ jobs:
       # https://pytest.org
       # https://nose.readthedocs.io
       - run:
-          name: run tests
+          name: run unit tests
           command: |
             . venv/bin/activate
-            python manage.py test
+            python manage.py test runtracker
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
+
+      - run:
+          name: run server
+          command: python manage.py runserver
+          background: true
+
+      - run:
+          name: run functional tests
+          command: |
+            python manage.py test vacationrun
 
       - store_artifacts:
           path: test-reports
