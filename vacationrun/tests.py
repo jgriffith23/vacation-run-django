@@ -2,12 +2,12 @@ from selenium import webdriver
 import unittest
 
 # from selenium.webdriver.firefox.webdriver import WebDriver
-# from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 # from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 
-# cap = DesiredCapabilities().FIREFOX
-# cap["marionette"] = False
+cap = DesiredCapabilities().FIREFOX
+cap["marionette"] = False
 
 # TODO: Consider converting back to unittest?
 class NewUserTest(unittest.TestCase):
