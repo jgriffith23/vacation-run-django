@@ -69,12 +69,15 @@ jobs:
 
       - run:
           name: run server
-          command: python manage.py runserver
+          command: |
+            . venv/bin/activate
+            python manage.py runserver
           background: true
 
       - run:
           name: run functional tests
           command: |
+            . venv/bin/activate
             python manage.py test vacationrun
 
       - store_artifacts:
