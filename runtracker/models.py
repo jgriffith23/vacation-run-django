@@ -101,7 +101,7 @@ class Event(models.Model):
         ordering = ('date',)
 
     def __str__(self):
-        return f"{self.title} ({self.date.strftime('%B %Y')})"
+        return f"{self.title} ({self.date.strftime('%A, %B %d, %Y')})"
 
 
 class Team(models.Model):
