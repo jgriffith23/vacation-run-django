@@ -133,7 +133,7 @@ class Workout(models.Model):
 
     calories = models.IntegerField()
 
-    evt = models.ForeignKey(
+    event = models.ForeignKey(
         Event,
         null=True,
         blank=True,

@@ -18,10 +18,19 @@ class WorkoutForm(forms.ModelForm):
 
     class Meta:
         model = Workout
-        fields = ('activity',
-                  'calories',
-                  'evt',
-                  'date',
-                  'distance',
-                  'duration',
+
+        fields = (
+            "activity",
+            "calories",
+            "event",
+            "date",
+            "distance",
+            "duration",
         )
+
+        widgets = {
+            "calories": forms.IntegerField(),
+            "date": forms.DateTimeInput(format="%d/%m/%Y"),
+            "distance": forms.FloatField(),
+            "duration": forms.TimeInput(format="%H:%M:%S"),
+        }
